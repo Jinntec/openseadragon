@@ -1144,9 +1144,9 @@ $.extend( $.Viewer.prototype, $.EventSource.prototype, $.ControlDock.prototype, 
 
             body.removeChild( this.element );
 
-            body.querySelectorAll('.hidden').forEach(elem =>{
+            body.querySelectorAll('.hidden').forEach(function(elem) {
                 elem.classList.remove('hidden');
-            })
+            });
 
 /*
             nodes = this.previousBody.length;
