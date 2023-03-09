@@ -1078,19 +1078,30 @@ $.extend( $.Viewer.prototype, $.EventSource.prototype, $.ControlDock.prototype, 
             //respond to touch events on the canvas, while the bottom half treated
             //them as touch events on the document body.  Thus we remove and store
             //the bodies elements and replace them when we leave full screen.
-/*
             this.previousBody = [];
             THIS[ this.hash ].prevElementParent = this.element.parentNode;
             THIS[ this.hash ].prevNextSibling = this.element.nextSibling;
             THIS[ this.hash ].prevElementWidth = this.element.style.width;
             THIS[ this.hash ].prevElementHeight = this.element.style.height;
-*/
+            /*
+            not removing body children as this affects
+            */
+/*
             nodes = body.childNodes.length;
             for ( i = 0; i < nodes; i++ ) {
-                // this.previousBody.push( body.childNodes[ 0 ] );
-                // body.removeChild( body.childNodes[ 0 ] );
-                body.childNodes[ i ].classList.add('hidden');
+                this.previousBody.push( body.childNodes[ 0 ] );
+                body.removeChild( body.childNodes[ 0 ] );
             }
+*/
+/*
+            A more generic approach than using pb-p
+            Array.from(body.children).forEach(function(child){
+                // child.style.display='none';
+                child.classList.add('hidden');
+            });
+            pbpage.style.display = 'none';
+*/
+
 
             //If we've got a toolbar, we need to enable the user to use css to
             //preserve it in fullpage mode
@@ -1143,12 +1154,6 @@ $.extend( $.Viewer.prototype, $.EventSource.prototype, $.ControlDock.prototype, 
             bodyStyle.display = this.bodyDisplay;
 
             body.removeChild( this.element );
-
-            body.querySelectorAll('.hidden').forEach(function(elem) {
-                elem.classList.remove('hidden');
-            });
-
-/*
             nodes = this.previousBody.length;
             for ( i = 0; i < nodes; i++ ) {
                 body.appendChild( this.previousBody.shift() );
@@ -1159,7 +1164,6 @@ $.extend( $.Viewer.prototype, $.EventSource.prototype, $.ControlDock.prototype, 
                 this.element,
                 THIS[ this.hash ].prevNextSibling
             );
-*/
 
             //If we've got a toolbar, we need to enable the user to use css to
             //reset it to its original state
