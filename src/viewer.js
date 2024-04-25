@@ -1238,7 +1238,7 @@ $.extend( $.Viewer.prototype, $.EventSource.prototype, $.ControlDock.prototype, 
             THIS[ this.hash ].prevElementWidth = this.element.style.width;
             THIS[ this.hash ].prevElementHeight = this.element.style.height;
             /*
-            not removing body children as this affects
+            patch to make it work with TP fullscreen - not removing body children as this affects
             */
 /*
             nodes = body.childNodes.length;
@@ -1247,16 +1247,6 @@ $.extend( $.Viewer.prototype, $.EventSource.prototype, $.ControlDock.prototype, 
                 body.removeChild( body.childNodes[ 0 ] );
             }
 */
-/*
-            A more generic approach than using pb-p
-            Array.from(body.children).forEach(function(child){
-                // child.style.display='none';
-                child.classList.add('hidden');
-            });
-            pbpage.style.display = 'none';
-*/
-
-
             //If we've got a toolbar, we need to enable the user to use css to
             //preserve it in fullpage mode
             if ( this.toolbar && this.toolbar.element ) {
