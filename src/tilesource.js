@@ -2,7 +2,7 @@
  * OpenSeadragon - TileSource
  *
  * Copyright (C) 2009 CodePlex Foundation
- * Copyright (C) 2010-2022 OpenSeadragon contributors
+ * Copyright (C) 2010-2024 OpenSeadragon contributors
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are
@@ -370,6 +370,7 @@ $.TileSource.prototype = {
             point.y >= 0 && point.y <= 1 / this.aspectRatio;
         $.console.assert(validPoint, "[TileSource.getTileAtPoint] must be called with a valid point.");
 
+
         var widthScaled = this.dimensions.x * this.getLevelScale(level);
         var pixelX = point.x * widthScaled;
         var pixelY = point.y * widthScaled;
@@ -568,13 +569,13 @@ $.TileSource.prototype = {
     },
 
     /**
-     * Responsible determining if a the particular TileSource supports the
+     * Responsible for determining if the particular TileSource supports the
      * data format ( and allowed to apply logic against the url the data was
      * loaded from, if any ). Overriding implementations are expected to do
      * something smart with data and / or url to determine support.  Also
-     * understand that iteration order of TileSources is not guarunteed so
+     * understand that iteration order of TileSources is not guaranteed so
      * please make sure your data or url is expressive enough to ensure a simple
-     * and sufficient mechanisim for clear determination.
+     * and sufficient mechanism for clear determination.
      * @function
      * @param {String|Object|Array|Document} data
      * @param {String} url - the url the data was loaded
@@ -663,6 +664,11 @@ $.TileSource.prototype = {
      * The headers returned here will override headers specified at the Viewer or TiledImage level.
      * Specifying a falsy value for a header will clear its existing value set at the Viewer or
      * TiledImage level (if any).
+     *
+     * Note that the headers of existing tiles don't automatically change when this function
+     * returns updated headers. To do that, you need to call {@link OpenSeadragon.Viewer#setAjaxHeaders}
+     * and propagate the changes.
+     *
      * @function
      * @param {Number} level
      * @param {Number} x
@@ -770,7 +776,7 @@ $.TileSource.prototype = {
         };
 
         // Load the tile with an AJAX request if the loadWithAjax option is
-        // set. Otherwise load the image by setting the source proprety of the image object.
+        // set. Otherwise load the image by setting the source property of the image object.
         if (context.loadWithAjax) {
             dataStore.request = $.makeAjaxRequest({
                 url: context.src,
@@ -932,7 +938,7 @@ function processResponse( xhr ){
         throw new Error( $.getString( "Errors.Status", status, statusText ) );
     }
 
-    if( responseText.match(/\s*<.*/) ){
+    if( responseText.match(/^\s*<.*/) ){
         try{
         data = ( xhr.responseXML && xhr.responseXML.documentElement ) ?
             xhr.responseXML :
