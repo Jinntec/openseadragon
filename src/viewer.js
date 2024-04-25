@@ -1238,7 +1238,8 @@ $.extend( $.Viewer.prototype, $.EventSource.prototype, $.ControlDock.prototype, 
             THIS[ this.hash ].prevElementWidth = this.element.style.width;
             THIS[ this.hash ].prevElementHeight = this.element.style.height;
             /*
-            patch to make it work with TP fullscreen - not removing body children as this affects
+            patch to make it work with TP fullscreen - not removing body children as this affects also removes pb-page
+            and results in empty screen.
             */
 /*
             nodes = body.childNodes.length;
